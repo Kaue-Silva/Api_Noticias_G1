@@ -12,7 +12,7 @@ class Noticias:
         self.driver.get("https://g1.globo.com/")
 
     def captura_noticias(self):
-        # Get scroll height
+        # pegar altura da pagina
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
@@ -37,7 +37,7 @@ class Noticias:
         resumo_noticias = {}
         noticias = self.driver.find_elements_by_xpath('//div [@class="feed-post-body-resumo"]')
         for n in range(len(noticias)):
-            resumo_noticias["id":n] = f"{n+1}º Noticia: {noticias[n].text}"
+            resumo_noticias[n] = f"{n+1}º Noticia: {noticias[n].text}"
         
         return resumo_noticias
 

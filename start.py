@@ -1,6 +1,6 @@
 from main import Noticias
-from flask import Flask, jsonify
-from flask_restx import Api, Resource, namespace
+from flask import Flask
+from flask_restx import Api, Resource
 
 class Server():
     def __init__(self):
@@ -20,7 +20,6 @@ server = Server()
 app, api = server.app, server.api
 
 @api.route('/noticias')
-
 class resumo_noticias(Resource):
     def get(self):
         noticias = Noticias()
