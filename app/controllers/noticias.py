@@ -11,10 +11,9 @@ class Noticias:
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://g1.globo.com/")
 
-    def captura_noticias(self):
+    def carregamento_pagina(self):
         # pegar altura da pagina
         altura_final = self.driver.execute_script("return document.body.scrollHeight")
-
         while True:
             # Botão scroll para baixo
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -28,12 +27,8 @@ class Noticias:
                 break
             
             altura_final = altura_nova
-        
-        # pagina = self.driver.find_element_by_xpath('//body')
-        # pagina.send_keys(Keys.END)
-        
-        # sleep(5)
-        
+    
+    def captura_noticias(self):
         resumo_noticias = {}
         noticias = self.driver.find_elements_by_xpath('//div [@class="feed-post-body-resumo"]')
         for n in range(len(noticias)):
