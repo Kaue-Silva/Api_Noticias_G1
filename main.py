@@ -3,12 +3,12 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 options = webdriver.ChromeOptions()
-options.headless = True
+options.headless = False
 options.add_argument("--disable-notifications")
 
 class Noticias:
     def __init__(self):
-        self.driver = webdriver.Chrome(executable_path=r"./chromedriver.exe", options=options)
+        self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://g1.globo.com/")
 
     def captura_noticias(self):
@@ -43,3 +43,6 @@ class Noticias:
 
     def sair(self):
         self.driver.close()
+
+n = Noticias()
+print(n.captura_noticias())
