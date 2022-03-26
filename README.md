@@ -12,14 +12,14 @@ Sua intenção e Trazer Noticias da Home do G1.
 - Selenium
 
 ## Como Iniciar API
-Necessario criar uma venv apos clone do repositorio
+### Requisitos:
+- Chromedriver
+- venv
 ``` bash
     # Instalando Dependencias
     pip3 install -r requirements.txt
-    # Setando start.py como app Flask
-    set flask_app=start.py
     # Rodando a API
-    flask run
+    python3 start.py
 ```
 
 ## Como Usar a API

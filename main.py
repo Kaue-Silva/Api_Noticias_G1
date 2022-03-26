@@ -13,7 +13,7 @@ class Noticias:
 
     def captura_noticias(self):
         # pegar altura da pagina
-        last_height = self.driver.execute_script("return document.body.scrollHeight")
+        altura_final = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
             # Botão scroll para baixo
@@ -23,11 +23,11 @@ class Noticias:
             sleep(0.5)
 
             # calcular novo scroll e comparar com scroll total da pagina
-            new_height = self.driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
+            altura_nova = self.driver.execute_script("return document.body.scrollHeight")
+            if altura_nova == altura_final:
                 break
             
-            last_height = new_height
+            altura_final = altura_nova
         
         # pagina = self.driver.find_element_by_xpath('//body')
         # pagina.send_keys(Keys.END)
@@ -43,6 +43,3 @@ class Noticias:
 
     def sair(self):
         self.driver.close()
-
-n = Noticias()
-print(n.captura_noticias())
