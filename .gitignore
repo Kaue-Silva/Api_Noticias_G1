@@ -1,4 +1,4 @@
-chromedriver.exe
 __pycache__
 *.pyc
+chromedriver.exe
 venv
