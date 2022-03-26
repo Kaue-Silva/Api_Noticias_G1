@@ -8,6 +8,7 @@ class resumo_noticias(Resource):
     def get(self):
         noticias = Noticias()
         noticias.carregamento_pagina()
-        noticias_dados = noticias.captura_noticias()
+        noticias.noticias_texto()
+        noticias_dados = noticias.noticias_dados()
         noticias.sair()
         return noticias_dados
