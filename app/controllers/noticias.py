@@ -1,9 +1,10 @@
+from contextlib import nullcontext
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 options.add_argument("--disable-notifications")
 
 class Noticias:
@@ -40,6 +41,7 @@ class Noticias:
             noticia = noticia.text
             noticia = noticia.split("\n")
             objeto_noticia = {
+                "imagem":"",
                 "titulo": noticia[0], 
                 "complementar": noticia[2], 
                 "hora_local": noticia[1]
@@ -47,6 +49,16 @@ class Noticias:
             self.noticias[i] = objeto_noticia
     
 
+    def noticias_imagens(self):
+        imagens = self.driver.find_elements_by_xpath('//div [@class="feed-post-body"]//picture//img')
+        for i, imagem in enumerate(imagens):
+            imagem = imagem.get_attribute("src")
+            if imagem == None:
+                imagem = ""
+                
+            self.noticias[i]["imagem"] = imagem
+    
+    
     def noticias_dados(self):
         return self.noticias
     

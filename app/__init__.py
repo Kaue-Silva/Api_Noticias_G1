@@ -3,7 +3,7 @@ from flask_restx import Api
 
 
 app = Flask(__name__)
-# app.config["DEBUG"] = True
+app.config["DEBUG"] = True
 api = Api(app, 
         version=1.0,
         title='API G1 Noticias',

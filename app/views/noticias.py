@@ -9,6 +9,7 @@ class resumo_noticias(Resource):
         noticias = Noticias()
         noticias.carregamento_pagina()
         noticias.noticias_texto()
+        noticias.noticias_imagens()
         noticias_dados = noticias.noticias_dados()
         noticias.sair()
         return noticias_dados
