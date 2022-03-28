@@ -8,7 +8,10 @@ class resumo_noticias(Resource):
     def get(self):
         noticias = Noticias()
         noticias.carregamento_pagina()
-        noticias.noticias_titulos()
+        noticias.get_titulo()
+        # noticias.noticias_texto()
+        # noticias.noticias_titulos()
+        # noticias.noticias_complementar()
         # noticias.noticias_texto()
         # noticias.noticias_imagens()
         noticias_dados = noticias.noticias_dados()
