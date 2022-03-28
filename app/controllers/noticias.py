@@ -1,9 +1,9 @@
 from selenium import webdriver
-from time import sleep
 from selenium.webdriver.common.by import By
+from time import sleep
 
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 options.add_argument("--disable-notifications")
 
 class Noticias:
@@ -85,8 +85,12 @@ class Noticias:
     
     
     def get_elems_noticias(self):
+        noticias = self.driver.find_elements(by=By.XPATH, value='//div [@class="feed-post-body"]')
+        return noticias
+    
+    def get_html_noticias(self):
         noticias_elem = []
-        noticias = self.driver.find_elements_by_xpath('//div [@class="feed-post-body"]')
+        noticias = self.get_elems_noticias()
         
         for noticia in noticias:
             noticia = noticia.get_attribute('innerHTML') 
@@ -94,13 +98,48 @@ class Noticias:
 
         return noticias_elem
     
-    def get_titulo(self):
-        html_noticias = self.get_elems_noticias()
+    def get_titulos(self):
+        html_noticias = self.get_html_noticias()
         for i, html_noticia in enumerate(html_noticias):
             titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
             titulo = titulo.split('>')
             titulo = titulo[1]
             self.noticias[i] = {"titulo":titulo}
+
+    def get_complementos(self):
+        html_noticias = self.get_html_noticias()
+        for i, html_noticia in enumerate(html_noticias):
+            try:
+                complementos = []
+                complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
+                complemento_qtd = complemento.count("<li")
+                if complemento_qtd > 1:
+                    complementos_data = complemento
+                    complementos_data = complementos_data.split("<a")
+                    for complemento in complementos_data:
+                        try:
+                            complemento = complemento[complemento.index(">")+1:complemento.index("</a>")]
+                            complementos.append(complemento)
+                        except:
+                            continue
+                else:
+                    complemento = complemento[complemento.index('<a'):complemento.index('</a>')]
+                    complemento = complemento.split(">")
+                    complemento = complemento[1]
+                    complemento = complemento.replace("</a", "")
+            except:
+                try:
+                    complemento = html_noticia[html_noticia.index('class="feed-post-body-resumo"'):]
+                    complemento = complemento[complemento.index(">")+1:complemento.index("</div>")]
+                except:
+                    complemento = ""
+            
+            
+            if complementos:
+                self.noticias[i]["complementos"] = complementos
+            else:
+                self.noticias[i]["complementos"] = complemento
+            
     
     def noticias_dados(self):
         return self.noticias
@@ -110,5 +149,6 @@ class Noticias:
 
 noticias = Noticias()
 noticias.carregamento_pagina()
-noticias.get_titulo()
+noticias.get_titulos()
+noticias.get_complementos()
 print(noticias.noticias_dados())
