@@ -159,15 +159,30 @@ class Noticias:
 
             self.noticias[i]["hora_local"] = hora_local
     
+    def get_imagem(self):
+        html_noticias = self.get_html_noticias()
+        for i, html_noticia in enumerate(html_noticias):
+            try:
+                imagem = html_noticia
+                imagem = imagem[imagem.index("src=")+5:]
+                imagem = imagem[:imagem.index('"')]
+            
+            except:
+                imagem = ""
+            
+            self.noticias[i]["imagem"] = imagem
+                
+    
     def noticias_dados(self):
         return self.noticias
     
     def sair(self):
         self.driver.close()
 
-noticias = Noticias()
-noticias.carregamento_pagina()
-noticias.get_titulos()
-noticias.get_complementos()
-noticias.get_hora_local()
-print(noticias.noticias_dados())
+# noticias = Noticias()
+# noticias.carregamento_pagina()
+# noticias.get_titulos()
+# noticias.get_complementos()
+# noticias.get_hora_local()
+# noticias.get_imagem()
+# print(noticias.noticias_dados())
