@@ -109,6 +109,9 @@ class Noticias:
     def get_complementos(self):
         html_noticias = self.get_html_noticias()
         for i, html_noticia in enumerate(html_noticias):
+            # print(html_noticia)
+            # print()
+            # print(20 * "-")
             try:
                 complementos = []
                 complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
@@ -140,6 +143,21 @@ class Noticias:
             else:
                 self.noticias[i]["complementos"] = complemento
             
+    def get_hora_local(self):
+        html_noticias = self.get_html_noticias()
+        
+        for i, html_noticia in enumerate(html_noticias):
+            hora_local = []
+            hora_local_html = html_noticia
+            hora_local_html = hora_local_html[hora_local_html.index('class="feed-post-datetime"'):]
+            hora_local_html = hora_local_html[hora_local_html.index(">")+1:]
+            hora_local_html = hora_local_html.split("</span>")
+            hora_local.append(hora_local_html[0])
+            hora_local_html = hora_local_html[1]
+            hora_local_html = hora_local_html[hora_local_html.index(">")+1:]
+            hora_local.append(hora_local_html)
+
+            self.noticias[i]["hora_local"] = hora_local
     
     def noticias_dados(self):
         return self.noticias
@@ -151,4 +169,5 @@ noticias = Noticias()
 noticias.carregamento_pagina()
 noticias.get_titulos()
 noticias.get_complementos()
+noticias.get_hora_local()
 print(noticias.noticias_dados())
