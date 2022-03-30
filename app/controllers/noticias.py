@@ -13,6 +13,7 @@ class Noticias:
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://g1.globo.com/")
         self.noticias = {}
+        
 
     def carregamento_pagina(self):
         # pegar altura da pagina
@@ -30,59 +31,6 @@ class Noticias:
                 break
             
             altura_final = altura_nova
-    
-    # def elementos_noticias(self):
-    #     noticias = self.driver.find_elements_by_xpath('//div [@class="feed-post-body"]')
-    #     return noticias
-
-
-    # def noticias_texto(self):
-    #     noticias = self.driver.find_elements_by_xpath('//div [@class="feed-post-body"]//a')
-    #     for i, noticia in enumerate(noticias):
-    #         noticia = noticia.text
-    #         noticia = noticia.split("\n")
-    #         print(noticia)
-    #         # objeto_noticia = {
-    #         #     "imagem":"",
-    #         #     "titulo": noticia[0], 
-    #         #     "complementar": noticia[2], 
-    #         #     "hora_local": noticia[-1]
-    #         # }
-    #         self.noticias[i] = {"texto":noticia}
-    
-    
-    # def noticias_titulos(self):
-    #     # //div [@class="feed-post-body"]/div[@class="feed-post-body-title gui-color-primary gui-color-hover "]/div/a
-    #     titulos = self.driver.find_elements_by_xpath('//div[@class="feed-post-body"]/div[2]/div/a')
-        
-    #     for i, titulo in enumerate(titulos):
-    #         titulo = titulo.text
-    #         self.noticias[i] = {"titulo":titulo}
-
-    # def noticias_complementar(self):
-    #     # //div [@class="feed-post-body"]/div[@class="bstn-related"]/ul/li
-    #     complementares = self.driver.find_elements_by_xpath('//ul [@class="bstn-relateditems"]')
-    #     for i, complemento in enumerate(complementares):
-    #         complemento = complemento.text
-    #         complemento = complemento.split('\n')
-    #         self.noticias[i]["complemento"] = complemento
-            
-
-    # def noticias_hora_local(self):
-    #     # //div [@class="feed-post-body"]/div[@class="feed-post-metadata"]
-    #     # //div [@class="feed-post-body"]/div[@class="feed-post-metadata"]/span[1] hora
-    #     # //div [@class="feed-post-body"]/div[@class="feed-post-metadata"]/span[2] local
-    #     pass
-
-    # def noticias_imagens(self):
-    #     imagens = self.driver.find_elements_by_xpath('//div [@class="feed-post-body"]//picture//img')
-    #     for i, imagem in enumerate(imagens):
-    #         imagem = imagem.get_attribute("src")
-    #         if imagem == None:
-    #             imagem = self.imagem_none
-                
-    #         self.noticias[i]["imagem"] = imagem
-    
     
     def get_elems_noticias(self):
         noticias = self.driver.find_elements(by=By.XPATH, value='//div [@class="feed-post-body"]')
@@ -109,9 +57,6 @@ class Noticias:
     def get_complementos(self):
         html_noticias = self.get_html_noticias()
         for i, html_noticia in enumerate(html_noticias):
-            # print(html_noticia)
-            # print()
-            # print(20 * "-")
             try:
                 complementos = []
                 complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
@@ -174,15 +119,8 @@ class Noticias:
                 
     
     def noticias_dados(self):
+        self.noticias["status"] = "Ok"
         return self.noticias
     
     def sair(self):
         self.driver.close()
-
-# noticias = Noticias()
-# noticias.carregamento_pagina()
-# noticias.get_titulos()
-# noticias.get_complementos()
-# noticias.get_hora_local()
-# noticias.get_imagem()
-# print(noticias.noticias_dados())
