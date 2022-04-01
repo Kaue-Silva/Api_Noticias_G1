@@ -86,7 +86,7 @@ class Noticias:
             if complementos:
                 self.noticias[i]["complementos"] = complementos
             else:
-                self.noticias[i]["complementos"] = complemento
+                self.noticias[i]["complementos"] = [complemento]
             
     def get_hora_local(self):
         html_noticias = self.get_html_noticias()
@@ -101,7 +101,9 @@ class Noticias:
             hora_local_html = hora_local_html[1]
             hora_local_html = hora_local_html[hora_local_html.index(">")+1:]
             hora_local.append(hora_local_html)
-
+            hora_local[1] = hora_local[1].strip()
+            hora_local = f"{hora_local[0]} - {hora_local[1]}"
+            
             self.noticias[i]["hora_local"] = hora_local
     
     def get_imagem(self):
