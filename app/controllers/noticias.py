@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from time import sleep
 
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 options.add_argument("--disable-notifications")
 
 class Noticias:
