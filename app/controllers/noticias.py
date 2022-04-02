@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from time import sleep
 
 options = webdriver.ChromeOptions()
-options.headless = True
+options.headless = False
 options.add_argument("--disable-notifications")
 
 class Noticias:
@@ -12,7 +12,7 @@ class Noticias:
     def __init__(self):
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://g1.globo.com/")
-        self.noticias = {}
+        self.noticias = []
         
 
     def carregamento_pagina(self):
@@ -52,7 +52,7 @@ class Noticias:
             titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
             titulo = titulo.split('>')
             titulo = titulo[1]
-            self.noticias[i] = {"titulo":titulo}
+            self.noticias.append({"id":i,"titulo":titulo})
 
     def get_complementos(self):
         html_noticias = self.get_html_noticias()
@@ -121,7 +121,6 @@ class Noticias:
                 
     
     def noticias_dados(self):
-        self.noticias["status"] = "Ok"
         return self.noticias
     
     def sair(self):

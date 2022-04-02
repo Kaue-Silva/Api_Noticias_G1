@@ -15,7 +15,7 @@ class resumo_noticias(Resource):
             noticias.get_imagem()
             noticias_dados = (noticias.noticias_dados(), 200)
         except:
-            noticias_dados = ({0:{}, "status":"ocorreu um erro inesperado"}, 502)
+            noticias_dados = ([{}, "Occoreu um erro inesperado"], 502)
         
         noticias.sair()
         return noticias_dados
