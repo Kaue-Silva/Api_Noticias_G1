@@ -4,6 +4,8 @@ from ..controllers.noticias import Noticias
 
 
 @api.route('/noticias')
+@api.response(200, 'Successo')
+@api.response(502, 'Erro na consulta')
 class resumo_noticias(Resource):
     def get(self):
         noticias = Noticias()
