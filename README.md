@@ -12,10 +12,10 @@ Sua intenção e Trazer Noticias da Home do G1.
 - Selenium
 - Docker
 
-## Como Iniciar API
-
-### Recomendavel utilizar rotating-proxy
+### Esta API faz uso do Rotating-Proxy
 - https://github.com/mattes/rotating-proxy
+
+## Como Iniciar API
 
 ``` bash
     # Inicializar Api
