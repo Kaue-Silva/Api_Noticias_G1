@@ -12,9 +12,10 @@ Sua intenção e Trazer Noticias da Home do G1.
 - Selenium
 
 ## Como Iniciar API
-### Requisitos:
-- Chromedriver
-- venv
+
+### Recomendavel utilizar rotating-proxy
+- https://github.com/mattes/rotating-proxy
+
 ``` bash
     # Instalando Dependencias
     pip3 install -r requirements.txt
