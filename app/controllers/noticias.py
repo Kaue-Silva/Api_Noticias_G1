@@ -5,6 +5,12 @@ from time import sleep
 options = webdriver.ChromeOptions()
 options.headless = True
 options.add_argument("--disable-notifications")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-setuid-sandbox")
+options.add_argument("--disable-extensions")
+options.add_argument("--disable-gpu")
+options.add_argument("--ignore-certificate-errors")
+options.add_argument('--disable-dev-shm-usage') 
 
 class Noticias:
     imagem_none = ''

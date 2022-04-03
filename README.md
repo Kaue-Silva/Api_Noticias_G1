@@ -10,6 +10,7 @@ Sua intenção e Trazer Noticias da Home do G1.
 ## Tecnologias Utilizadas
 - Flask
 - Selenium
+- Docker
 
 ## Como Iniciar API
 
@@ -17,10 +18,8 @@ Sua intenção e Trazer Noticias da Home do G1.
 - https://github.com/mattes/rotating-proxy
 
 ``` bash
-    # Instalando Dependencias
-    pip3 install -r requirements.txt
-    # Rodando a API
-    python3 start.py
+    # Inicializar Api
+    docker-compose up
 ```
 
 ## Como Usar a API
