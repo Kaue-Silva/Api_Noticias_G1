@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 from time import sleep
 
 options = webdriver.ChromeOptions()
@@ -55,9 +56,11 @@ class Noticias:
     def get_titulos(self):
         html_noticias = self.get_html_noticias()
         for i, html_noticia in enumerate(html_noticias):
-            titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
-            titulo = titulo.split('>')
-            titulo = titulo[1]
+            # titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
+            # titulo = titulo.split('>')
+            # titulo = titulo[1]
+            soup = BeautifulSoup(html_noticia, "html.parser")
+            titulo = soup.a.text
             self.noticias.append({"id":i,"titulo":titulo})
 
     def get_complementos(self):
