@@ -119,7 +119,7 @@ class Noticias:
                         try:
                             for complementos_class in complemento["class"]:
                                 if complementos_class == "feed-post-body-resumo":
-                                    complementos = complemento.text
+                                    complementos = [complemento.text]
                         except:
                             continue
                 except:
