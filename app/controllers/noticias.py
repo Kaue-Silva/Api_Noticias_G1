@@ -20,8 +20,24 @@ class Noticias:
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://g1.globo.com/")
         self.noticias = []
-        
+        self.get_html_noticias()
 
+    def get_elems_noticias(self):
+        noticias = self.driver.find_elements(by=By.XPATH, value='//div [@class="feed-post-body"]')
+        return noticias
+    
+    def get_html_noticias(self):
+        noticias_elem = []
+        noticias = self.get_elems_noticias()
+        
+        for i, noticia in enumerate(noticias):
+            noticia = noticia.get_attribute('innerHTML') 
+            noticias_elem.append(noticia)
+            
+            self.noticias.append({"id":i})
+        
+        self.noticias_elem = noticias_elem
+    
     def carregamento_pagina(self):
         # pegar altura da pagina
         altura_final = self.driver.execute_script("return document.body.scrollHeight")
@@ -39,66 +55,81 @@ class Noticias:
             
             altura_final = altura_nova
     
-    def get_elems_noticias(self):
-        noticias = self.driver.find_elements(by=By.XPATH, value='//div [@class="feed-post-body"]')
-        return noticias
-    
-    def get_html_noticias(self):
-        noticias_elem = []
-        noticias = self.get_elems_noticias()
-        
-        for noticia in noticias:
-            noticia = noticia.get_attribute('innerHTML') 
-            noticias_elem.append(noticia)
-
-        return noticias_elem
     
     def get_titulos(self):
-        html_noticias = self.get_html_noticias()
+        html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
             # titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
             # titulo = titulo.split('>')
             # titulo = titulo[1]
             soup = BeautifulSoup(html_noticia, "html.parser")
             titulo = soup.a.text
-            self.noticias.append({"id":i,"titulo":titulo})
-
+            # self.noticias.append({"id":i,"titulo":titulo})
+            self.noticias[i]["titulo"] = titulo
+    
+    
     def get_complementos(self):
-        html_noticias = self.get_html_noticias()
+        html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
+            # try:
+            #     complementos = []
+            #     complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
+            #     complemento_qtd = complemento.count("<li")
+            #     if complemento_qtd > 1:
+            #         complementos_data = complemento
+            #         complementos_data = complementos_data.split("<a")
+            #         for complemento in complementos_data:
+            #             try:
+            #                 complemento = complemento[complemento.index(">")+1:complemento.index("</a>")]
+            #                 complementos.append(complemento)
+            #             except:
+            #                 continue
+            #     else:
+            #         complemento = complemento[complemento.index('<a'):complemento.index('</a>')]
+            #         complemento = complemento.split(">")
+            #         complemento = complemento[1]
+            #         complemento = complemento.replace("</a", "")
+            # except:
+            #     try:
+            #         complemento = html_noticia[html_noticia.index('class="feed-post-body-resumo"'):]
+            #         complemento = complemento[complemento.index(">")+1:complemento.index("</div>")]
+            #     except:
+            #         complemento = ""
+            
+            
+            # if complementos:
+            #     self.noticias[i]["complementos"] = complementos
+            # else:
+            #     self.noticias[i]["complementos"] = [complemento]
+
+            soup = BeautifulSoup(html_noticia, "html.parser")
             try:
+                complementos_html = soup.find_all("li")
                 complementos = []
-                complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
-                complemento_qtd = complemento.count("<li")
-                if complemento_qtd > 1:
-                    complementos_data = complemento
-                    complementos_data = complementos_data.split("<a")
-                    for complemento in complementos_data:
-                        try:
-                            complemento = complemento[complemento.index(">")+1:complemento.index("</a>")]
-                            complementos.append(complemento)
-                        except:
-                            continue
-                else:
-                    complemento = complemento[complemento.index('<a'):complemento.index('</a>')]
-                    complemento = complemento.split(">")
-                    complemento = complemento[1]
-                    complemento = complemento.replace("</a", "")
+                
+                for complemento in complementos_html:
+                    complemento = complemento.a
+                    complemento = complemento.text
+                    complementos.append(complemento)
+            
             except:
                 try:
-                    complemento = html_noticia[html_noticia.index('class="feed-post-body-resumo"'):]
-                    complemento = complemento[complemento.index(">")+1:complemento.index("</div>")]
+                    complementos_html = soup.find_all("div")
+                    for complemento in complementos_html:
+                        try:
+                            for complementos_class in complemento["class"]:
+                                if complementos_class == "feed-post-body-resumo":
+                                    complementos = complemento.text
+                        except:
+                            continue
                 except:
-                    complemento = ""
+                    complementos = []
             
-            
-            if complementos:
-                self.noticias[i]["complementos"] = complementos
-            else:
-                self.noticias[i]["complementos"] = [complemento]
+            self.noticias[i]["complementos"] = complementos
+
             
     def get_hora_local(self):
-        html_noticias = self.get_html_noticias()
+        html_noticias = self.noticias_elem
         
         for i, html_noticia in enumerate(html_noticias):
             hora_local = []
@@ -116,7 +147,7 @@ class Noticias:
             self.noticias[i]["hora_local"] = hora_local
     
     def get_imagem(self):
-        html_noticias = self.get_html_noticias()
+        html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
             try:
                 imagem = html_noticia
