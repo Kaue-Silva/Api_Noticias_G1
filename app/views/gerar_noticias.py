@@ -14,7 +14,7 @@ class GerarNoticias(Resource):
         noticias.get_titulos()
         noticias.get_complementos()
         noticias.get_hora_local()
-        # noticias.get_imagem()
+        noticias.get_imagem()
         noticias_dados = (noticias.noticias_dados(), 200)
         # except:
         # noticias_dados = ([{}, "Occoreu um erro inesperado"], 502)

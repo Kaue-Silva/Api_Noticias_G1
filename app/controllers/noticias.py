@@ -164,13 +164,19 @@ class Noticias:
     def get_imagem(self):
         html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
-            try:
-                imagem = html_noticia
-                imagem = imagem[imagem.index("src=") + 5 :]
-                imagem = imagem[: imagem.index('"')]
+            # try:
+            #     imagem = html_noticia
+            #     imagem = imagem[imagem.index("src=") + 5 :]
+            #     imagem = imagem[: imagem.index('"')]
 
-            except:
-                imagem = ""
+            # except:
+            #     imagem = ""
+
+            soup = BeautifulSoup(html_noticia, "html.parser")
+
+            imagem = soup.img
+            imagem = imagem.get_attribute_list("src")
+            imagem = imagem[0]
 
             self.noticias[i]["imagem"] = imagem
 
