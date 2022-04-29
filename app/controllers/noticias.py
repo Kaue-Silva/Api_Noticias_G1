@@ -63,69 +63,13 @@ class Noticias:
     def get_titulos(self):
         html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
-            # titulo = html_noticia[html_noticia.index('<a'):html_noticia.index('</a>')]
-            # titulo = titulo.split('>')
-            # titulo = titulo[1]
             soup = BeautifulSoup(html_noticia, "html.parser")
             titulo = soup.a.text
-            # self.noticias.append({"id":i,"titulo":titulo})
             self.noticias[i]["titulo"] = titulo
 
     def get_complementos(self):
         html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
-            # try:
-            #     complementos = []
-            #     complemento = html_noticia[html_noticia.index('<ul'):html_noticia.index('</ul>')]
-            #     complemento_qtd = complemento.count("<li")
-            #     if complemento_qtd > 1:
-            #         complementos_data = complemento
-            #         complementos_data = complementos_data.split("<a")
-            #         for complemento in complementos_data:
-            #             try:
-            #                 complemento = complemento[complemento.index(">")+1:complemento.index("</a>")]
-            #                 complementos.append(complemento)
-            #             except:
-            #                 continue
-            #     else:
-            #         complemento = complemento[complemento.index('<a'):complemento.index('</a>')]
-            #         complemento = complemento.split(">")
-            #         complemento = complemento[1]
-            #         complemento = complemento.replace("</a", "")
-            # except:
-            #     try:
-            #         complemento = html_noticia[html_noticia.index('class="feed-post-body-resumo"'):]
-            #         complemento = complemento[complemento.index(">")+1:complemento.index("</div>")]
-            #     except:
-            #         complemento = ""
-
-            # if complementos:
-            #     self.noticias[i]["complementos"] = complementos
-            # else:
-            #     self.noticias[i]["complementos"] = [complemento]
-
-            # try:
-            #     complementos_html = soup.find_all("li")
-            #     complementos = []
-
-            #     for complemento in complementos_html:
-            #         complemento = complemento.a
-            #         complemento = complemento.text
-            #         complementos.append(complemento)
-
-            # except:
-            #     try:
-            #         complementos_html = soup.find_all("div")
-            #         for complemento in complementos_html:
-            #             try:
-            #                 for complementos_class in complemento["class"]:
-            #                     if complementos_class == "feed-post-body-resumo":
-            #                         complementos = [complemento.text]
-            #             except:
-            #                 continue
-            #     except:
-            #         complementos = []
-
             soup = BeautifulSoup(html_noticia, "html.parser")
             complementos = []
 
@@ -152,29 +96,18 @@ class Noticias:
         html_noticias = self.noticias_elem
 
         for i, html_noticia in enumerate(html_noticias):
-            # hora_local = []
-            # hora_local_html = html_noticia
-            # hora_local_html = hora_local_html[
-            #     hora_local_html.index('class="feed-post-datetime"') :
-            # ]
-            # hora_local_html = hora_local_html[hora_local_html.index(">") + 1 :]
-            # hora_local_html = hora_local_html.split("</span>")
-            # hora_local.append(hora_local_html[0])
-            # hora_local_html = hora_local_html[1]
-            # hora_local_html = hora_local_html[hora_local_html.index(">") + 1 :]
-            # hora_local.append(hora_local_html)
-            # hora_local[1] = hora_local[1].strip()
-            # hora_local = f"{hora_local[0]} - {hora_local[1]}"
 
             soup = BeautifulSoup(html_noticia, "html.parser")
 
             hora = soup.find_all("span", class_="feed-post-datetime")
             hora = hora[0]
             hora = hora.text
+            hora = hora.strip()
 
             local = soup.find_all("span", class_="feed-post-metadata-section")
             local = local[0]
             local = local.text
+            local = local.strip()
 
             hora_local = f"{hora} - {local}"
 
@@ -183,14 +116,6 @@ class Noticias:
     def get_imagem(self):
         html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
-            # try:
-            #     imagem = html_noticia
-            #     imagem = imagem[imagem.index("src=") + 5 :]
-            #     imagem = imagem[: imagem.index('"')]
-
-            # except:
-            #     imagem = ""
-
             soup = BeautifulSoup(html_noticia, "html.parser")
             try:
                 imagem = soup.img
