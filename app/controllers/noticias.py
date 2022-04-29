@@ -104,26 +104,45 @@ class Noticias:
             # else:
             #     self.noticias[i]["complementos"] = [complemento]
 
-            soup = BeautifulSoup(html_noticia, "html.parser")
-            try:
-                complementos_html = soup.find_all("li")
-                complementos = []
+            # try:
+            #     complementos_html = soup.find_all("li")
+            #     complementos = []
 
-                for complemento in complementos_html:
+            #     for complemento in complementos_html:
+            #         complemento = complemento.a
+            #         complemento = complemento.text
+            #         complementos.append(complemento)
+
+            # except:
+            #     try:
+            #         complementos_html = soup.find_all("div")
+            #         for complemento in complementos_html:
+            #             try:
+            #                 for complementos_class in complemento["class"]:
+            #                     if complementos_class == "feed-post-body-resumo":
+            #                         complementos = [complemento.text]
+            #             except:
+            #                 continue
+            #     except:
+            #         complementos = []
+
+            soup = BeautifulSoup(html_noticia, "html.parser")
+            complementos = []
+
+            complementos_elem = soup.find_all("ul", class_="bstn-relateditems")
+            if complementos_elem != []:
+                for complemento in complementos_elem:
                     complemento = complemento.a
                     complemento = complemento.text
                     complementos.append(complemento)
-
-            except:
+            else:
                 try:
-                    complementos_html = soup.find_all("div")
-                    for complemento in complementos_html:
-                        try:
-                            for complementos_class in complemento["class"]:
-                                if complementos_class == "feed-post-body-resumo":
-                                    complementos = [complemento.text]
-                        except:
-                            continue
+                    complemento_elem = soup.find_all(
+                        "div", class_="feed-post-body-resumo"
+                    )
+                    complemento = complemento_elem[0]
+                    complemento = complemento.text
+                    complementos.append(complemento)
                 except:
                     complementos = []
 
@@ -173,10 +192,12 @@ class Noticias:
             #     imagem = ""
 
             soup = BeautifulSoup(html_noticia, "html.parser")
-
-            imagem = soup.img
-            imagem = imagem.get_attribute_list("src")
-            imagem = imagem[0]
+            try:
+                imagem = soup.img
+                imagem = imagem.get_attribute_list("src")
+                imagem = imagem[0]
+            except:
+                imagem = None
 
             self.noticias[i]["imagem"] = imagem
 
