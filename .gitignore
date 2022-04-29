@@ -5,3 +5,4 @@ chromedriver.exe
 venv
 test.py
 test.html
+.env
