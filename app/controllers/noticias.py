@@ -47,7 +47,7 @@ class Noticias:
             )
 
             # esperar a pagina carregar
-            sleep(0.5)
+            sleep(0.7)
 
             # calcular novo scroll e comparar com scroll total da pagina
             altura_nova = self.driver.execute_script(
@@ -92,37 +92,55 @@ class Noticias:
 
             self.noticias[i]["complementos"] = complementos
 
-    def get_hora_local(self):
+    def get_hora(self):
         html_noticias = self.noticias_elem
 
         for i, html_noticia in enumerate(html_noticias):
-
             soup = BeautifulSoup(html_noticia, "html.parser")
+            try:
+                hora = soup.find_all("span", class_="feed-post-datetime")
+                hora = hora[0]
+                hora = hora.text
+                hora = hora.strip()
+            except:
+                hora = None
+            
+            self.noticias[i]["hora"] = hora
 
-            hora = soup.find_all("span", class_="feed-post-datetime")
-            hora = hora[0]
-            hora = hora.text
-            hora = hora.strip()
+    def get_local(self):
+        html_noticias = self.noticias_elem
 
-            local = soup.find_all("span", class_="feed-post-metadata-section")
-            local = local[0]
-            local = local.text
-            local = local.strip()
+        for i, html_noticia in enumerate(html_noticias):
+            soup = BeautifulSoup(html_noticia, "html.parser")
+            try:
+                local = soup.find_all("span", class_="feed-post-metadata-section")
+                local = local[0]
+                local = local.text
+                local = local.strip()
+            except:
+                local = None
 
-            hora_local = f"{hora} - {local}"
-
-            self.noticias[i]["hora_local"] = hora_local
+            self.noticias[i]["local"] = local
 
     def get_imagem(self):
         html_noticias = self.noticias_elem
         for i, html_noticia in enumerate(html_noticias):
             soup = BeautifulSoup(html_noticia, "html.parser")
-            try:
-                imagem = soup.img
-                imagem = imagem.get_attribute_list("src")
-                imagem = imagem[0]
-            except:
+            imagem = soup.img
+
+            if soup.find_all("img", class_="feed-post-video-trademark"):
                 imagem = None
+
+            if imagem != None:
+                imagem = imagem.get_attribute_list("src")
+            else:
+                try:
+                    imagem = soup.video
+                    imagem = imagem.get_attribute_list("poster")
+                except:
+                    imagem = [None]
+
+            imagem = imagem[0]
 
             self.noticias[i]["imagem"] = imagem
 
