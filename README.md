@@ -11,6 +11,7 @@ Sua intenção e Trazer Noticias da Home do G1.
 - Flask
 - Selenium
 - Docker
+- Beautiful Soup 4
 
 ### Esta API faz uso do Rotating-Proxy
 - https://github.com/mattes/rotating-proxy
