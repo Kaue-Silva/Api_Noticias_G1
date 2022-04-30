@@ -8,6 +8,7 @@ API Construida em Python
 Sua intenção e Trazer Noticias da Home do G1.
 
 ## Tecnologias Utilizadas
+- Python
 - Flask
 - Selenium
 - Docker
