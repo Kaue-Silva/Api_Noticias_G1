@@ -104,7 +104,7 @@ class Noticias:
                 hora = hora.strip()
             except:
                 hora = None
-            
+
             self.noticias[i]["hora"] = hora
 
     def get_local(self):
