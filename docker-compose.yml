@@ -1,10 +1,5 @@
 version: '3.8'
 services:
-  rotating-proxy:
-    image: mattes/rotating-proxy:latest
-    ports:
-      - 5566:5566
-      - 4444:4444
   g1_api:
     build: .
     command: python3 start.py
@@ -12,5 +7,3 @@ services:
       - .:/code
     ports:
       - 5000:5000
-    depends_on:
-      - rotating-proxy

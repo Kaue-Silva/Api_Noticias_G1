@@ -1,0 +1,1 @@
+web: guinicorn -b :$PORT start:app
