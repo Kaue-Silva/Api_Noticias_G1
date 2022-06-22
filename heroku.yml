@@ -1,3 +1,5 @@
-build: 
+build:
   docker:
     web: Dockerfile
+run:
+  web: python3 start.py
