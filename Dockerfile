@@ -25,7 +25,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-RUN adduser -D myuser
-RUN USER myuser
+# RUN adduser -D myuser
+# RUN USER myuser
 
-CMD [ "gunicorn" "--bind" "0.0.0.0:$PORT" "wsgi"]
+# CMD [ "gunicorn" "--bind" "0.0.0.0:$PORT" "wsgi"]
